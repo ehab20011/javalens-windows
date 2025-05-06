@@ -23,3 +23,6 @@ Thumbs.db
 *.swp
 *.bak
 *.tmp
+
+# ────────── env ──────────
+.env

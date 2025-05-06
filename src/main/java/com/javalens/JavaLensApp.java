@@ -452,15 +452,17 @@ public class JavaLensApp extends Application {
             isMine = true;
         }
 
-        logger.debug("Parsed packet: {} -> {} [{}] MACsrc={} MACdst={} isMine={}",
-                    src, dst, proto, ethSrc, ethDst, isMine);
-
-        return new PacketRow(
+        PacketRow row = new PacketRow(
             LocalTime.now().format(TIME_FMT),
             src, dst, proto,
             String.valueOf(p.length()), info,
             p.toString(), isMine, isBroadcastOrMulticast
         );
+
+        if (Utils.suspiciousPacket(row)) {
+            Database.insertPacket(row);
+        }
+        return row;
     }
 
     // ── Main -------------------------------------------------------------

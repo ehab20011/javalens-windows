@@ -307,7 +307,6 @@ public class Utils {
         return false;
     }
 
-
     public static String macToString(byte[] macBytes) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < macBytes.length; i++) {
@@ -315,6 +314,23 @@ public class Utils {
             if (i < macBytes.length - 1) sb.append(":");
         }
         return sb.toString();
+    }
+
+    // [ BIG TODO ]: Define what makes a packet suspicious? 
+    public static boolean suspiciousPacket(PacketRow row) {
+        // suspicious if it's TCP on a non-standard port
+        if ("TCP".equalsIgnoreCase(row.getProtocol())) {
+            String info = row.getInfo();
+            return info.contains(" → ") && (
+                info.contains(":1337") || // odd ports
+                info.contains(":666") ||
+                info.contains(":31337") ||
+                info.contains(":0") // invalid ports
+            );
+        }
+    
+        //ADD DNS exfiltration detection and ICMP abuse next ? maybe..
+        return false;
     }
 
 
