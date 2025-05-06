@@ -1,0 +1,75 @@
+# JavaLens – Professional Windows Setup Guide
+
+JavaLens is a modern packet sniffer and network analysis tool for Windows, built with Java 21, JavaFX, and PCAP4J. This guide provides a proven, professional setup process for a smooth experience on Windows.
+
+---
+
+## Prerequisites
+
+### 1. Java 21 JDK
+- **Download:** [jdk.java.net/21](https://jdk.java.net/21/) (or your preferred vendor's Java 21 build)
+- **Set Environment Variables:**
+  - `JAVA_HOME` should point to your JDK install folder (e.g., `C:\Program Files\Java\jdk-21`)
+  - Add `%JAVA_HOME%\bin` to your system `PATH`
+- **Verify:**
+  - Run `java -version` and `javac -version` in a new terminal to confirm Java 21 is active.
+
+### 2. JavaFX 21
+- **No system-wide install needed.** JavaFX is managed via Maven dependencies (e.g., `org.openjfx:javafx-controls:21:win`).
+- **Important:** Ensure your Maven POM uses `<javafx.version>21</javafx.version>` or hard-codes version 21 for all JavaFX modules.
+
+### 3. Maven 3.8+ (3.9.x recommended)
+- **Download:** [Maven Downloads](https://maven.apache.org/download.cgi)
+- **Install:** Unzip to a folder (e.g., `C:\Tools\apache-maven-3.9.6`)
+- **Set Environment Variables:**
+  - `MAVEN_HOME` to your Maven folder
+  - Add `%MAVEN_HOME%\bin` to your system `PATH`
+- **Verify:**
+  - Run `mvn -version` to confirm Maven is available and using the correct Java version.
+
+### 4. Npcap 1.82+ (for packet capture)
+- **Download:** [Npcap Official Site](https://nmap.org/npcap/)
+- **Install:**
+  - Run the installer.
+  - **Ensure the "WinPcap-compatible mode" option is checked** during installation. This is required for PCAP4J to access network interfaces.
+
+---
+
+## Running JavaLens
+
+1. **Open a terminal (PowerShell or Command Prompt).**
+2. **Navigate to the project directory:**
+   ```powershell
+   cd java-lens-windows
+   ```
+3. **Run the application (fast start, skips clean):**
+   ```powershell
+   mvn javafx:run
+   ```
+   - If you need a clean build:
+     ```powershell
+     mvn clean javafx:run
+     ```
+   - To run a specific main class (for testing):
+     ```powershell
+     mvn exec:java -Dexec.mainClass=com.javalens.PCap4jTesting
+     ```
+
+**Note:**
+- If you encounter file lock errors on Windows, ensure all previous JavaLens windows are closed, and no Explorer previews are open. If issues persist, avoid using `mvn clean` unless necessary.
+
+---
+
+## Support
+For troubleshooting or questions, please refer to the project documentation or open an issue on the repository.
+
+```powershell
+cd java-lens-windows
+mvn javafx:run            # fast run (skip clean)
+
+```Or, if you really need a clean build:
+mvn clean javafx:run
+
+
+mvn exec:java -Dexec.mainClass=com.javalens.PCap4jTesting
+If javafx:run complains about locked files on Windows, close the previous JavaLens window or Explorer previews, or just omit clean.
